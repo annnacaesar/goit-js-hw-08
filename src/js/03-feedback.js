@@ -28,7 +28,7 @@ function onFormSubmit(e) {
 	e.currentTarget.reset();
 	localStorage.removeItem(FEEDBACK_KEY);
 };
- 
+
 function onInput  (e) {
 	const value = e.target.value;
 	console.log(value);
@@ -39,13 +39,13 @@ function onInput  (e) {
 		formData[key] = value;
 		localStorage.setItem(FEEDBACK_KEY, JSON.stringify(formData));
 	}
- };
+};
 
 function checkStorage () {
-	 if (formData.message !== "") {
-		 ref.textarea.value = formData.message;
-	 }
-	 if (formData.email !== "") {
-		 ref.input.value = formData.email;
-	 }
+	if (formData.message !== "") {
+		ref.textarea.value = formData.message;
+	}
+	if (formData.email !== "") {
+		ref.input.value = formData.email;
+	}
 };
