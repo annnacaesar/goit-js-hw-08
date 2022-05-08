@@ -2,31 +2,33 @@ import throttle from 'lodash.throttle';
 
 const FEEDBACK_KEY = "feedback-form-state";
 
-const ref = {
+const refs = {
 	form: document.querySelector('.feedback-form'),
 	textarea: document.querySelector('.feedback-form textarea'),
 	input: document.querySelector('.feedback-form input')
 }
 	
-ref.form.addEventListener('submit', onFormSubmit);
-ref.form.addEventListener('input', throttle(onInput, 500));
-ref.textarea.addEventListener('input', throttle(onInput, 500));
-
-
+refs.form.addEventListener('submit', onFormSubmit);
+refs.form.addEventListener('input', throttle(onFormInput, 500));
 
 let formData = {};
 checkStorage();
 
 function onFormSubmit(e) {
 	e.preventDefault();
-	console.log(formData);
-	e.target.reset();
-	localStorage.removeItem(FEEDBACK_KEY);
+
+	if (refs.form.email.value && refs.form.message.value) {
+			console.log(`Дякуємо за відгук!`, formData);
+		e.target.reset();
+		localStorage.removeItem(FEEDBACK_KEY);
+		} else {
+			alert(`Заповніть всі поля!`);
+		};
 };
  
-function onInput  (e) {
-	const message = e.target.value;
+function onFormInput(e) {
 	const name = e.target.name;
+	const message = e.target.value;
 
 	if (formData) {
 		formData[name] = message;
@@ -34,13 +36,17 @@ function onInput  (e) {
 	}
  };
 
-function checkStorage () {
-	const savedFeedbackForm = localStorage.getItem(FEEDBACK_KEY);
-	const parsedData = JSON.parse(savedFeedbackForm);
-	 if (parsedData.message) {
-		 ref.textarea.value = parsedData.message;
-	 }
-	 if (parsedData.email) {
-		 ref.input.value = parsedData.email;
-	 }
+function checkStorage() {
+	 if (localStorage.getItem(FEEDBACK_KEY)) {
+    const saveData = localStorage.getItem(FEEDBACK_KEY);
+    formData = JSON.parse(saveData);
+  }
+
+  if (formData.email) {
+    refs.input.value = formData.email;
+  }
+
+  if (formData.message) {
+    refs.textarea.value = formData.message;
+  }
 };
