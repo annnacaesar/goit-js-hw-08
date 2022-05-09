@@ -18,7 +18,8 @@ function onFormSubmit(e) {
 	e.preventDefault();
 
 	if (refs.form.email.value && refs.form.message.value) {
-			console.log(`Дякуємо за відгук!`, formData);
+		console.log(`Дякуємо за відгук!`, formData);
+		formData = {};
 		e.target.reset();
 		localStorage.removeItem(FEEDBACK_KEY);
 		} else {
